@@ -2,7 +2,10 @@
 	import "../app.css";
 	import { AppShell } from '@skeletonlabs/skeleton';
 </script>
-  
+
+<svelte:head>
+	<title>SurveyTrade</title>
+</svelte:head>
 
 <AppShell>
 	<svelte:fragment slot="header">
