@@ -2,7 +2,7 @@
 	export let items: string[]
 </script>
 
-<ul class="m-3">
+<ul>
 	{#each items as item}
 		<li>{item}</li>
 	{/each}
