@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	export let form;
 </script>
 
@@ -14,6 +15,7 @@
 		<form
 			class="w-full mx-auto my-4 flex flex-col space-y-4 lg:w-2/3"
 			method="POST"
+			use:enhance
 		>
 			<div class="space-y-1">
 				<label for="email" class="block font-bold">
