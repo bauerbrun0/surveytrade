@@ -2,6 +2,7 @@
 import { join } from 'path';
 import { skeleton } from '@skeletonlabs/tw-plugin';
 import { skeletonTheme } from './skeleton-theme';
+import forms from '@tailwindcss/forms';
 
 export default {
   darkMode: 'class',
@@ -22,6 +23,7 @@ export default {
 				skeletonTheme
 			]
 		}
-	})
+	}),
+	forms
   ],
 }

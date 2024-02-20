@@ -1,11 +1,11 @@
 <script lang="ts">
 	import Logo from "$lib/components/Logo.svelte";
 	import Avatar from "$lib/components/icons/Avatar.svelte";
-  	import { popup } from "@skeletonlabs/skeleton";
-  	import type { PopupSettings } from "@skeletonlabs/skeleton";
+  	import { popup, type PopupSettings} from "@skeletonlabs/skeleton";
 	import ProfilePopup from "./ProfilePopup.svelte";
+	import { page } from "$app/stores";
 
-	let loggedIn = true;
+	let loggedIn = false;
 
 	// You have to reload the page after modifying the popup or its 'trigger' button
 	// see: https://github.com/skeletonlabs/skeleton/issues/2465
@@ -44,9 +44,14 @@
 				<Avatar className="w-8 h-8 md:w-9 md:h-9 ml-2"/>
 			</button>
 		{:else}
-			<a href="/" class="hover:text-primary-500">
-				<button type="button" class="btn variant-filled-primary py-1.5 md:py-2">Log in</button>
-			</a>
+			{#if $page.url.pathname !== "/account/signup"}
+				<a href="/account/signup" class="hover:text-primary-500">Sign up</a>
+			{/if}
+			{#if $page.url.pathname !== "/account/login"}
+				<a href="/account/login" class="hover:text-primary-500">
+					<button type="button" class="btn variant-filled-primary py-1.5 md:py-2">Log in</button>
+				</a>
+			{/if}
 		{/if}
 	</div>
 </header>
