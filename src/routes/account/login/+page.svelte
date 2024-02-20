@@ -25,6 +25,7 @@
 					name="email"
 					class="input w-full"
 					autocapitalize="off"
+					spellcheck="false"
 					autocomplete="off"
 					required
 					value={form?.fields?.email || ""}
@@ -45,6 +46,7 @@
 					name="password"
 					class="input w-full"
 					autocapitalize="off"
+					spellcheck="false"
 					autocomplete="off"
 					required
 				/>

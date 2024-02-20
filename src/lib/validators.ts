@@ -85,3 +85,21 @@ export function parseSignupPassword(value: unknown): [string, string | undefined
 
 	return [password, undefined];
 }
+
+export function parseRequiredStringField(value: unknown): [string, string | undefined] {
+	if (!value) {
+		return ["", "This field cannot be empty"];
+	}
+
+	if (!isString(value)) {
+		return ["", "This field must be a string"];
+	}
+
+	const fieldValue = value.trim();
+
+	if (fieldValue === "") {
+		return ["", "This field cannot be empty"];
+	}
+
+	return [fieldValue, undefined];
+}
