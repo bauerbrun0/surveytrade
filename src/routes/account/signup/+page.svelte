@@ -15,6 +15,7 @@
 		<form
 			class="w-full mx-auto my-4 flex flex-col space-y-4 lg:w-2/3"
 			method="POST"
+			action="?/signup"
 			use:enhance
 		>
 			<div class="space-y-1">

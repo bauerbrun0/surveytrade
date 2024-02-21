@@ -4,8 +4,12 @@
 	see: https://github.com/skeletonlabs/skeleton/issues/2465
 -->
 <script lang="ts">
-	export let name: string = "John";
-	export let email: string = "john@example.com";
+	import { enhance } from "$app/forms";
+	import { page } from "$app/stores";
+	$: firstName = $page.data.user?.firstName || ""
+	$: lastName = $page.data.user?.lastName || ""
+	$: name = `${firstName} ${lastName}`
+	$: email = $page.data.user?.email || ""
 </script>
 
 <div class="rounded-lg bg-surface-500 p-4 w-fit min-w-64 duration-0 hidden:duration-0" data-popup="popupProfile">
@@ -17,6 +21,13 @@
 	<div>
 		<a href="/" class="block my-1 px-2 py-1 rounded-md hover:bg-secondary-500">Profile</a>
 		<a href="/" class="block my-1 px-2 py-1 rounded-md hover:bg-secondary-500">Settings</a>
-		<a href="/" class="block my-1 px-2 py-1 rounded-md hover:bg-secondary-500">Log out</a>
+		<form
+			class="w-full"
+			method="POST"
+			action="/account/logout"
+			use:enhance
+		>
+			<button type="submit" class="block w-full text-left my-1 px-2 py-1 rounded-md hover:bg-secondary-500">Log out</button>
+		</form>
 	</div>
 </div>

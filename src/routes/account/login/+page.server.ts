@@ -1,5 +1,7 @@
+import userService from "$lib/services/userService";
 import { parseLoginEmail, parseLoginPassword } from "$lib/validators";
-import { fail, type Actions } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
+import type { Action, Actions } from "@sveltejs/kit";
 
 type FormErrors = {
 	email?: string;
@@ -10,27 +12,41 @@ type FormFields = {
 	email?: string;
 };
 
-export const actions: Actions = {
-	default: async ({ request }) => {
-		const data = await request.formData();
-		const [email, emailErr] = parseLoginEmail(data.get("email"));
-		const [password, passwordErr] = parseLoginPassword(data.get("password"));
+const login: Action = async ({ request, cookies }) => {
+	const data = await request.formData();
+	const [email, emailErr] = parseLoginEmail(data.get("email"));
+	const [password, passwordErr] = parseLoginPassword(data.get("password"));
 
-		const errors: FormErrors = {
-			email: emailErr,
-			password: passwordErr
-		};
+	const errors: FormErrors = {
+		email: emailErr,
+		password: passwordErr
+	};
 
-		const fields: FormFields = {
-			email: email
-		};
+	const fields: FormFields = {
+		email: email
+	};
 
-		if (errors.email || errors.password) {
-			return fail(422, { errors, fields });
-		}
-
-		// Parsed email and password
-		console.log("email", email);
-		console.log("password", password);
+	if (errors.email || errors.password) {
+		return fail(422, { errors, fields });
 	}
+
+	let token: string;
+
+	try {
+		token = await userService.authenticateUser(email, password);
+	} catch (e: unknown) {
+		errors.email = "Email or password is incorrect";
+		return fail(422, { errors, fields });
+	}
+
+	cookies.set("session", token, {
+		path: "/",
+		httpOnly: true,
+		sameSite: "lax",
+		secure: false
+	});
+
+	redirect(303, "/");
 };
+
+export const actions: Actions = { login };

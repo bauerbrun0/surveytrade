@@ -5,8 +5,6 @@
 	import ProfilePopup from "./ProfilePopup.svelte";
 	import { page } from "$app/stores";
 
-	let loggedIn = false;
-
 	// You have to reload the page after modifying the popup or its 'trigger' button
 	// see: https://github.com/skeletonlabs/skeleton/issues/2465
 	const popupProfile: PopupSettings = {
@@ -32,7 +30,7 @@
 		</h1>
 	</a>
 	<div class="ml-auto flex items-center space-x-3 md:space-x-4 font-bold">
-		{#if loggedIn}
+		{#if $page.data.user}
 			<a href="/" class="hover:text-primary-500 hidden md:block">Browse</a>
 			<a href="/" class="hover:text-primary-500 hidden md:block">My Surveys</a>
 			<button
@@ -40,7 +38,7 @@
 				class="flex items-center rounded-full hover:bg-secondary-500 pl-2 py-0.5"
 				use:popup={popupProfile}
 			>
-				John
+				{$page.data.user.firstName}
 				<Avatar className="w-8 h-8 md:w-9 md:h-9 ml-2"/>
 			</button>
 		{:else}
