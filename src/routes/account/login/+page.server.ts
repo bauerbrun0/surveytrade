@@ -35,7 +35,7 @@ const login: Action = async ({ request, cookies }) => {
 	try {
 		token = await userService.authenticateUser(email, password);
 	} catch (e: unknown) {
-		errors.email = "Email or password is incorrect";
+		errors.password = "Email or password is incorrect";
 		return fail(422, { errors, fields });
 	}
 
