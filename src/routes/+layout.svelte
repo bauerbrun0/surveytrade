@@ -1,17 +1,26 @@
-<script>
+<script lang="ts">
 	import "../app.css";
 	import { AppShell } from '@skeletonlabs/skeleton';
   	import Header from "./components/Header.svelte";
 	import Footer from "./components/Footer.svelte";
-	// setting up floating-ui for popups
+	// popups floating-ui imports
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
+	// toast imports
+	import { initializeStores } from '@skeletonlabs/skeleton';
+	import { Toast } from '@skeletonlabs/skeleton';
+	
+	// setting up popups	
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
+	// setting up toast
+	initializeStores();
 </script>
 
 <svelte:head>
 	<title>SurveyTrade</title>
 </svelte:head>
+
+<Toast />
 
 <AppShell>
 	<svelte:fragment slot="header">

@@ -12,6 +12,9 @@
 		target: 'popupProfile',
 		placement: 'bottom-end',
 	};
+
+	$: email = $page.data.user?.email;
+	$: userLoggedIn = $page.data?.user;
 </script>
 
 <header
@@ -30,7 +33,7 @@
 		</h1>
 	</a>
 	<div class="ml-auto flex items-center space-x-3 md:space-x-4 font-bold">
-		{#if $page.data.user}
+		{#if userLoggedIn}
 			<a href="/" class="hover:text-primary-500 hidden md:block">Browse</a>
 			<a href="/" class="hover:text-primary-500 hidden md:block">My Surveys</a>
 			<button
@@ -38,16 +41,16 @@
 				class="flex items-center rounded-full hover:bg-secondary-500 pl-2 py-0.5"
 				use:popup={popupProfile}
 			>
-				{$page.data.user.firstName}
+				{email}
 				<Avatar className="w-8 h-8 md:w-9 md:h-9 ml-2"/>
 			</button>
 		{:else}
 			{#if $page.url.pathname !== "/account/signup"}
 				<a href="/account/signup" class="hover:text-primary-500">Sign up</a>
 			{/if}
-			{#if $page.url.pathname !== "/account/login"}
-				<a href="/account/login" class="hover:text-primary-500">
-					<button type="button" class="btn variant-filled-primary py-1.5 md:py-2">Log in</button>
+			{#if $page.url.pathname !== "/account/signin"}
+				<a href="/account/signin" class="hover:text-primary-500">
+					<button type="button" class="btn variant-filled-primary py-1.5 md:py-2">Sign in</button>
 				</a>
 			{/if}
 		{/if}

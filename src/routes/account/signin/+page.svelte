@@ -15,12 +15,12 @@
 		<form
 			class="w-full mx-auto my-4 flex flex-col space-y-4 lg:w-2/3"
 			method="POST"
-			action="?/login"
+			action="?/signin"
 			use:enhance
 		>
 			<div class="space-y-1">
 				<label for="email" class="block font-bold">
-					Email	
+					Email
 				</label>
 				<input
 					type="email"
@@ -59,17 +59,17 @@
 					</p>
 				{/if}
 			</div>
-			<div class="pt-7">
+			
+			<div class="pt-4">
 				<button
 					type="submit"
 					class="btn variant-filled-primary w-full font-bold"
 				>
-					Login
+					Sign in
 				</button>
 			</div>
 		</form>
 		<div class="w-full lg:w-2/3 mx-auto flex items-center justify-between">
-			<a href="/account/reset-password" class="text-blue-500">Forgot password?</a>
 			<a href="/account/signup" class="text-blue-500 text-right">Don't have an account?</a>
 		</div>
 	</div>

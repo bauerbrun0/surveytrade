@@ -1,24 +1,96 @@
 import { isString } from "./helpers";
 
-export function parseLoginEmail(value: unknown): [string, string | undefined] {
-	if (!value) {
-		return ["", "Email is required"];
+export type SignupFormFields = {
+	email: string;
+	password: string;
+	passwordConfirmation: string;
+	terms: string;
+};
+
+export type SignupFormErrors = {
+	email: string | undefined;
+	password: string | undefined;
+	passwordConfirmation: string | undefined;
+	terms: string | undefined;
+};
+
+export function parseSignupForm(formData: FormData): { signupFormFields: SignupFormFields; signupFormErrors?: SignupFormErrors } {
+	const [email, emailError] = parseSignupEmail(formData.get("email"));
+	const [password, passwordError] = parseSignupPassword(formData.get("password"));
+	const [passwordConfirmation, passwordConfirmationError] = parseSignupPasswordConfirmation(formData.get("confirm_password"));
+	const [terms, termsError] = parseSignupTerms(formData.get("terms"));
+
+	const signupFormFields = {
+		email,
+		password,
+		passwordConfirmation,
+		terms
+	};
+
+	if (emailError || passwordError || passwordConfirmationError) {
+		return {
+			signupFormFields,
+			signupFormErrors: {
+				email: emailError,
+				password: passwordError,
+				passwordConfirmation: passwordConfirmationError,
+				terms: termsError
+			}
+		};
 	}
 
-	if (!isString(value)) {
-		return ["", "Email is not a string"];
+	if (password !== passwordConfirmation) {
+		return {
+			signupFormFields,
+			signupFormErrors: {
+				email: undefined,
+				password: undefined,
+				terms: undefined,
+				passwordConfirmation: "Passwords do not match"
+			}
+		};
 	}
 
-	const email = value.trim();
-
-	if (email === "") {
-		return ["", "Email is required"];
-	}
-
-	return [email, undefined];
+	return {
+		signupFormFields
+	};
 }
 
-export function parseSignupEmail(value: unknown): [string, string | undefined] {
+export type SigninFormFields = {
+	email: string;
+	password: string;
+};
+
+export type SigninFormErrors = {
+	email: string | undefined;
+	password: string | undefined;
+};
+
+export function parseSigninForm(formData: FormData): { signinFormFields: SigninFormFields; signinFormErrors?: SigninFormErrors } {
+	const [email, emailError] = parseSigninEmail(formData.get("email"));
+	const [password, passwordError] = parseSigninPassword(formData.get("password"));
+
+	const signinFormFields = {
+		email,
+		password
+	};
+
+	if (emailError || passwordError) {
+		return {
+			signinFormFields,
+			signinFormErrors: {
+				email: emailError,
+				password: passwordError
+			}
+		};
+	}
+
+	return {
+		signinFormFields
+	};
+}
+
+function parseSignupEmail(value: unknown): [string, string | undefined] {
 	if (!value) {
 		return ["", "Email is required"];
 	}
@@ -42,25 +114,7 @@ export function parseSignupEmail(value: unknown): [string, string | undefined] {
 	return [email, undefined];
 }
 
-export function parseLoginPassword(value: unknown): [string, string | undefined] {
-	if (!value) {
-		return ["", "Password is required"];
-	}
-
-	if (!isString(value)) {
-		return ["", "Password is not a string"];
-	}
-
-	const password = value.trim();
-
-	if (password === "") {
-		return ["", "Password is required"];
-	}
-
-	return [password, undefined];
-}
-
-export function parseSignupPassword(value: unknown): [string, string | undefined] {
+function parseSignupPassword(value: unknown): [string, string | undefined] {
 	if (!value) {
 		return ["", "Password is required"];
 	}
@@ -86,20 +140,64 @@ export function parseSignupPassword(value: unknown): [string, string | undefined
 	return [password, undefined];
 }
 
-export function parseRequiredStringField(value: unknown): [string, string | undefined] {
+function parseSignupPasswordConfirmation(value: unknown): [string, string | undefined] {
 	if (!value) {
-		return ["", "This field cannot be empty"];
+		return ["", "Password confirmation is required"];
 	}
 
 	if (!isString(value)) {
-		return ["", "This field must be a string"];
+		return ["", "Password confirmation must be a string"];
+	}
+
+	const passwordConfirmation = value.trim();
+
+	if (passwordConfirmation === "") {
+		return ["", "Password confirmation is required"];
+	}
+
+	return [passwordConfirmation, undefined];
+}
+
+function parseSignupTerms(value: unknown): [string, string | undefined] {
+	if (!value) {
+		return ["", "You must agree to the terms of service"];
+	}
+
+	return ["", undefined];
+}
+
+function parseSigninEmail(value: unknown): [string, string | undefined] {
+	if (!value) {
+		return ["", "Email is required"];
+	}
+
+	if (!isString(value)) {
+		return ["", "Email is not a string"];
+	}
+
+	const email = value.trim();
+
+	if (email === "") {
+		return ["", "Email is required"];
+	}
+
+	return [email, undefined];
+}
+
+function parseSigninPassword(value: unknown): [string, string | undefined] {
+	if (!value) {
+		return ["", "Please enter a password"];
+	}
+
+	if (!isString(value)) {
+		return ["", "Password must be a string"];
 	}
 
 	const fieldValue = value.trim();
 
 	if (fieldValue === "") {
-		return ["", "This field cannot be empty"];
+		return ["", "Please enter a password"];
 	}
-
+		
 	return [fieldValue, undefined];
 }

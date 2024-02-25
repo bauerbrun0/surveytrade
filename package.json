@@ -9,7 +9,11 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test": "vitest",
-		"lint": "eslint ."
+		"lint": "eslint .",
+		"db:migrate": "drizzle-kit generate:sqlite",
+		"db:push": "drizzle-kit push:sqlite",
+		"db:studio": "drizzle-kit studio --verbose",
+		"db:dev:dump": "bash -c 'read -p  \"DELETING DATABASE AND MIGRATIONS. DO NOT USE THIS IN PRODUCTION! Do you wish to continue? (y/n): \" x; [ \"$x\" = \"y\" ] && rm -rf ./drizzle && mkdir -p ./drizzle/.db && echo 'Done''"
 	},
 	"devDependencies": {
 		"@skeletonlabs/skeleton": "^2.8.0",
@@ -18,13 +22,16 @@
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@tailwindcss/forms": "^0.5.7",
+		"@types/better-sqlite3": "^7.6.9",
 		"@types/eslint": "8.56.0",
 		"@types/node": "^20.11.19",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
 		"autoprefixer": "^10.4.17",
+		"drizzle-kit": "^0.20.14",
 		"eslint": "^8.56.0",
 		"eslint-plugin-svelte": "^2.35.1",
+		"lucia": "^3.0.1",
 		"postcss": "^8.4.35",
 		"svelte": "^4.2.7",
 		"svelte-check": "^3.6.0",
@@ -36,6 +43,11 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@floating-ui/dom": "^1.6.3"
+		"@floating-ui/dom": "^1.6.3",
+		"@lucia-auth/adapter-drizzle": "^1.0.2",
+		"better-sqlite3": "^9.4.1",
+		"drizzle-orm": "^0.29.3",
+		"oslo": "^1.1.2",
+		"pino": "^8.19.0"
 	}
 }

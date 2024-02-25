@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1708876942824,
+      "tag": "0000_fat_vampiro",
+      "breakpoints": true
+    }
+  ]
+}

@@ -1,17 +1,14 @@
 // See https://kit.svelte.dev/docs/types#app
-import type { LoggedInUser } from "$lib/types";
-
 // for information about these interfaces
 declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			user?: LoggedInUser;
+			user: import("lucia").User | null;
+			session: import("lucia").Session | null;
 		}
-		// Not sure if it's type safety is actually enforced
-		// Probably not
 		interface PageData {
-			user?: LoggedInUser;
+			user: import("lucia").User | null;
 		}
 		// interface PageState {}
 		// interface Platform {}

@@ -20,7 +20,7 @@
 		>
 			<div class="space-y-1">
 				<label for="email" class="block font-bold">
-					Email	
+					Email
 				</label>
 				<input
 					type="email"
@@ -38,50 +38,6 @@
 						{form.errors.email}	
 					</p>
 				{/if}
-			</div>
-			<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-				<div class="space-y-1">
-					<label for="first_name" class="block font-bold">
-						First Name	
-					</label>
-					<input
-						type="text"
-						id="first_name"
-						name="first_name"
-						class="input w-full"
-						autocapitalize="on"
-						spellcheck="false"
-						autocomplete="off"
-						required
-						value={form?.fields?.firstName || ""}
-					/>
-					{#if form?.errors?.firstName}
-						<p class="block text-red-500">
-							{form.errors.firstName}	
-						</p>
-					{/if}
-				</div>
-				<div class="space-y-1">
-					<label for="last_name" class="block font-bold">
-						Last Name	
-					</label>
-					<input
-						type="text"
-						id="last_name"
-						name="last_name"
-						class="input w-full"
-						autocapitalize="on"
-						spellcheck="false"
-						autocomplete="off"
-						required
-						value={form?.fields?.lastName || ""}
-					/>
-					{#if form?.errors?.lastName}
-						<p class="block text-red-500">
-							{form.errors.lastName}	
-						</p>
-					{/if}
-				</div>
 			</div>
 			<div class="space-y-1">			
 				<label for="password" class="block font-bold">
@@ -150,7 +106,7 @@
 			</div>
 		</form>
 		<div class="w-full lg:w-2/3 mx-auto flex items-center justify-between">
-			<a href="/account/login" class="text-blue-500 text-right">Already have an account?</a>
+			<a href="/account/signin" class="text-blue-500 text-right">Already have an account?</a>
 		</div>
 	</div>
 </div>
