@@ -1,4 +1,4 @@
-import { isString } from "./utils/typeguards";
+import { isString } from "$lib/utils/typeguards";
 
 export type SignupFormFields = {
 	email: string;

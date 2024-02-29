@@ -1,10 +1,10 @@
-import { isArray, isToastMessage } from "$lib/utils/typeguards";
-import type { ToastMessage } from "$lib/utils/types";
-import { browser } from '$app/environment';
-import type { ToastStore } from "@skeletonlabs/skeleton";
-import Cookie from "js-cookie";
 import { onMount } from "svelte";
 import { onNavigate } from "$app/navigation";
+import { browser } from '$app/environment';
+import Cookie from "js-cookie";
+import type { ToastMessage } from "$lib/utils/types";
+import type { ToastStore } from "@skeletonlabs/skeleton";
+import { isArray, isToastMessage } from "$lib/utils/typeguards";
 
 export function showToastMessage(toastStore: ToastStore, toastMessage: ToastMessage) {
 	toastStore.trigger({

@@ -1,7 +1,7 @@
 import { dev } from "$app/environment";
-import type { ToastMessage } from "$lib/utils/types";
 import { redirect } from "@sveltejs/kit";
 import type { Cookies } from "@sveltejs/kit";
+import type { ToastMessage } from "$lib/utils/types";
 
 /**
  * Executes a custom redirection with an optional referrer URL, and toast messages (sent with cookies). 

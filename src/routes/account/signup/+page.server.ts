@@ -1,6 +1,6 @@
-import { DuplicateEmailError } from "$lib/errors";
+import { DuplicateEmailError } from "$lib/utils/errors";
 import userService from "$lib/services/userService";
-import { parseSignupForm } from "$lib/validators";
+import { parseSignupForm } from "$lib/utils/validators";
 import type { Action, Actions } from "@sveltejs/kit"
 import { fail } from "@sveltejs/kit";
 import { lucia } from "$lib/auth";

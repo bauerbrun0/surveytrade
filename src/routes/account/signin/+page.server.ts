@@ -1,10 +1,10 @@
+import type { Action, Actions } from "@sveltejs/kit";
+import type { User } from "$lib/db/schema";
 import userService from "$lib/services/userService";
-import { parseSigninForm } from "$lib/validators";
-import type { Action, Actions } from "@sveltejs/kit"
+import { parseSigninForm } from "$lib/utils/validators";
 import { fail } from "@sveltejs/kit";
 import { lucia } from "$lib/auth";
-import type { User } from "$lib/db/schema";
-import { InvalidCredentialsError } from "$lib/errors";
+import { InvalidCredentialsError } from "$lib/utils/errors";
 import { customRedirect, getRedirectPathFromSearchParams } from "$lib/utils/redirects";
 
 const signin: Action = async ({ request, cookies, url }) => {

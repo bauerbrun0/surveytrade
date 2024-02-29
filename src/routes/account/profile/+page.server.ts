@@ -1,5 +1,5 @@
-import { emailVerificationRedirect, signinRedirect } from "$lib/utils/redirects";
 import type { PageServerLoad } from "./$types";
+import { emailVerificationRedirect, signinRedirect } from "$lib/utils/redirects";
 // import { lucia } from "$lib/auth";
 
 export const load: PageServerLoad = async ({ locals, url, cookies }) => {

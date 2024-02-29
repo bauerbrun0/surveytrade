@@ -1,10 +1,10 @@
-import { fail } from "@sveltejs/kit";
 import type { Action, Actions, PageServerLoad } from "./$types";
+import { fail } from "@sveltejs/kit";
 import { lucia } from "$lib/auth";
-import { parseEmailVerificationCode } from "$lib/validators";
+import { signinRedirect, customRedirect, getRedirectPathFromSearchParams } from "$lib/utils/redirects";
+import { parseEmailVerificationCode } from "$lib/utils/validators";
 import emailVerificationService from "$lib/services/emailVerificationService";
 import userService from "$lib/services/userService";
-import { signinRedirect, getRedirectPathFromSearchParams, customRedirect } from "$lib/utils/redirects";
 
 export const load: PageServerLoad = async ({ locals, url, cookies  }) => {
 	if (!locals.user) {
