@@ -25,7 +25,7 @@ export function customRedirect(props: {
 		const { toastMessages, cookies } = props.toast;
 		cookies.set("toastMessages", JSON.stringify(toastMessages), {
 			path: "/",
-			secure: dev,
+			secure: !dev,
 			httpOnly: false 
 		});
 	}
