@@ -5,6 +5,7 @@ import { signinRedirect, customRedirect, getRedirectPathFromSearchParams } from 
 import { parseEmailVerificationCode } from "$lib/utils/validators";
 import emailVerificationService from "$lib/services/emailVerificationService";
 import userService from "$lib/services/userService";
+import emailService from "$lib/services/emailService";
 
 export const load: PageServerLoad = async ({ locals, url, cookies  }) => {
 	if (!locals.user) {
@@ -42,6 +43,10 @@ const verify: Action = async ({ request, locals, cookies, url }) => {
 		return fail(401);
 	}
 
+	if (user.emailVerified) {
+		return fail(400);
+	}
+
 	const emailVerified = await emailVerificationService.verifyVerificationCode(user, code);
 	if (!emailVerified) {
 		return fail(422, {
@@ -76,4 +81,35 @@ const verify: Action = async ({ request, locals, cookies, url }) => {
 	});
 }
 
-export const actions: Actions = { verify };
+const resend: Action = async ({ locals }) => {
+	if (!locals.session) {
+		return fail(401);
+	}
+
+	const { user } = await lucia.validateSession(locals.session.id);
+	if (!user) {
+		return fail(401);
+	}
+
+	if (user.emailVerified) {
+		return fail(400);
+	}
+
+	try {
+		const code = await emailVerificationService.generateEmailVerificationCode(user.id, user.email);
+		await emailService.resendEmailVerificationCode(user.email, code);
+	} catch (e) {
+		// TODO: handle rate limiting errors
+		return fail(500, {
+			errors: {
+				resend: "Oops, an error occurred while trying to resend the email verification code. Please try again later."
+			}
+		})
+	}
+
+	return {
+		successMessage: "We've resent the email verification code to your email address!",
+	}
+}
+
+export const actions: Actions = { verify, resend };

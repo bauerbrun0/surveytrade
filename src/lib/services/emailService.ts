@@ -6,6 +6,11 @@ async function sendEmailVerificationCode(email: string, code: string): Promise<v
 	await sendEmail(email, "Email Verification Code", emailHtml);
 }
 
+async function resendEmailVerificationCode(email: string, code: string): Promise<void> {
+	const emailHtml = `<html><body><p>Your email verification code is: <strong>${code}</strong></p></body></html>`;
+	await sendEmail(email, "Email Verification Code", emailHtml);
+}
+
 async function sendEmail(to: string, subject: string, html: string): Promise<void> {
 	console.log(`Sending email to ${to}...`);
 	console.log(`Subject: ${subject}`);
@@ -38,7 +43,8 @@ async function sendEmail(to: string, subject: string, html: string): Promise<voi
 }
 
 const emailService = {
-	sendEmailVerificationCode
+	sendEmailVerificationCode,
+	resendEmailVerificationCode
 };
 
 export default emailService;

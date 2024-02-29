@@ -4,8 +4,27 @@
 	import { page } from '$app/stores';
 	import { enhance } from '$app/forms';
 	import { getRedirectFormActionExtraParamFromUrl } from '$lib/utils/redirects';
+	import { showToastMessage } from '$lib/utils/toastMessage.js';
+	import { getToastStore } from '@skeletonlabs/skeleton';
 
+	const toastStore = getToastStore();
 	let redirectExtraParam = getRedirectFormActionExtraParamFromUrl($page.url);
+
+	$: {
+		if (form?.successMessage) {
+			showToastMessage(toastStore, {
+				message: form.successMessage,
+				type: "success",
+			});
+		}
+
+		if (form?.errors?.resend) {
+			showToastMessage(toastStore, {
+				message: form.errors.resend,
+				type: "error",
+			});
+		}
+	}
 </script>
 
 <!-- Full screen height using mobile -->
