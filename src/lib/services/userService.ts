@@ -3,7 +3,7 @@ import db from "$lib/db";
 import { generateId } from "lucia";
 import { Argon2id } from "oslo/password";
 import { eq } from "drizzle-orm";
-import { DuplicateEmailError, InvalidCredentialsError } from "$lib/errors";
+import { DuplicateEmailError, InvalidCredentialsError } from "$lib/utils/errors";
 import emailVerificationService from "./emailVerificationService";
 import emailService from "./emailService";
 
