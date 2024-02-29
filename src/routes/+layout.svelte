@@ -1,6 +1,6 @@
 <script lang="ts">
 	import "../app.css";
-	import { AppShell } from '@skeletonlabs/skeleton';
+	import { AppShell, getToastStore } from '@skeletonlabs/skeleton';
   	import Header from "./components/Header.svelte";
 	import Footer from "./components/Footer.svelte";
 	// popups floating-ui imports
@@ -9,11 +9,15 @@
 	// toast imports
 	import { initializeStores } from '@skeletonlabs/skeleton';
 	import { Toast } from '@skeletonlabs/skeleton';
+  	import { subscribeToRedirectToastMessages } from "$lib/utils/toastMessage";
 	
 	// setting up popups	
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 	// setting up toast
 	initializeStores();
+	
+	const toastStore = getToastStore();
+	subscribeToRedirectToastMessages(toastStore);
 </script>
 
 <svelte:head>

@@ -1,4 +1,4 @@
-import { isString } from "./helpers";
+import { isString } from "./utils/typeguards";
 
 export type SignupFormFields = {
 	email: string;
@@ -27,7 +27,7 @@ export function parseSignupForm(formData: FormData): { signupFormFields: SignupF
 		terms
 	};
 
-	if (emailError || passwordError || passwordConfirmationError) {
+	if (emailError || passwordError || passwordConfirmationError || termsError) {
 		return {
 			signupFormFields,
 			signupFormErrors: {
@@ -88,6 +88,24 @@ export function parseSigninForm(formData: FormData): { signinFormFields: SigninF
 	return {
 		signinFormFields
 	};
+}
+
+export function parseEmailVerificationCode(value: unknown): [string, string | undefined] {
+	if (!value) {
+		return ["", "Verification code is required"];
+	}
+
+	if (!isString(value)) {
+		return ["", "Verification code must be a string"];
+	}
+
+	const code = value.trim();
+
+	if (code === "") {
+		return ["", "Verification code is required"];
+	}
+
+	return [code, undefined];
 }
 
 function parseSignupEmail(value: unknown): [string, string | undefined] {
@@ -160,7 +178,7 @@ function parseSignupPasswordConfirmation(value: unknown): [string, string | unde
 
 function parseSignupTerms(value: unknown): [string, string | undefined] {
 	if (!value) {
-		return ["", "You must agree to the terms of service"];
+		return ["", "You must agree to the Terms and Conditions"];
 	}
 
 	return ["", undefined];

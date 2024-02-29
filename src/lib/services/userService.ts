@@ -4,6 +4,8 @@ import { generateId } from "lucia";
 import { Argon2id } from "oslo/password";
 import { eq } from "drizzle-orm";
 import { DuplicateEmailError, InvalidCredentialsError } from "$lib/errors";
+import emailVerificationService from "./emailVerificationService";
+import emailService from "./emailService";
 
 async function signup(email: string, password: string): Promise<string> {
 	const id = generateId(15);
@@ -19,12 +21,14 @@ async function signup(email: string, password: string): Promise<string> {
 		throw new DuplicateEmailError();
 	}
 
-	// Insert new user
 	await db.insert(users).values({
 		id,
 		email,
 		hashedPassword
 	})
+
+	const verificationCode = await emailVerificationService.generateEmailVerificationCode(id, email);
+	await emailService.sendEmailVerificationCode(email, verificationCode);
 
 	return id;
 }
@@ -48,13 +52,24 @@ async function signin(email: string, password: string): Promise<Omit<User, "hash
 
 	return {
 		id: user.id,
-		email: user.email
+		email: user.email,
+		emailVerified: user.emailVerified
 	};
+}
+
+async function updateUserEmailVerified(userId: string, emailVerified: boolean): Promise<void> {
+	await db
+		.update(users)
+		.set({
+			emailVerified
+		})
+		.where(eq(users.id, userId));
 }
 
 const userService = {
 	signup,
-	signin
+	signin,
+	updateUserEmailVerified
 };
 
 export default userService;

@@ -1,12 +1,13 @@
 import userService from "$lib/services/userService";
 import { parseSigninForm } from "$lib/validators";
 import type { Action, Actions } from "@sveltejs/kit"
-import { fail, redirect } from "@sveltejs/kit";
+import { fail } from "@sveltejs/kit";
 import { lucia } from "$lib/auth";
 import type { User } from "$lib/db/schema";
 import { InvalidCredentialsError } from "$lib/errors";
+import { customRedirect, getRedirectPathFromSearchParams } from "$lib/utils/redirects";
 
-const signin: Action = async ({ request, cookies }) => {
+const signin: Action = async ({ request, cookies, url }) => {
 	const formData = await request.formData();
 	const { signinFormFields: fields, signinFormErrors: errors } = parseSigninForm(formData);
 
@@ -45,7 +46,18 @@ const signin: Action = async ({ request, cookies }) => {
 		...sessionCookie.attributes,
 	});
 
-	redirect(302, "/")
+	
+
+	const redirectTo = getRedirectPathFromSearchParams(url.searchParams) ?? "/";
+
+	return customRedirect({
+		status: 302,
+		targetPath: redirectTo,
+		toast: {
+			toastMessages: [{ message: `👋 Welcome back! What a nice day to fill out some forms!`, type: "success" }],
+			cookies
+		}
+	});
 };
 
 export const actions: Actions = { signin };

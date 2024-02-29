@@ -17,14 +17,14 @@
 	</div>
 	<hr class="my-2 md:my-4 !border-secondary-500"/>
 	<div>
-		<a href="/" class="block my-1 px-2 py-1 rounded-md hover:bg-secondary-500">Profile</a>
+		<a href="/account/profile" class="block my-1 px-2 py-1 rounded-md hover:bg-secondary-500">Profile</a>
 		<a href="/" class="block my-1 px-2 py-1 rounded-md hover:bg-secondary-500">Settings</a>
 		<form class="w-full" action="/account/signout" method="POST">
 			<button 
 				class="block w-full text-left my-1 px-2 py-1 rounded-md hover:bg-secondary-500"
 				type="submit"
 			>
-				Log out
+				Sign out
 			</button>
 	</div>
 </div>

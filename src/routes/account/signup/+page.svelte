@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	export let form;
+
+	import { enhance } from '$app/forms';
 </script>
 
 <!-- Full screen height using mobile -->
@@ -73,9 +74,9 @@
 					autocomplete="off"
 					required
 				/>
-				{#if form?.errors?.confirmPassword}
+				{#if form?.errors?.passwordConfirmation}
 					<p class="block text-red-500">
-						{form.errors.confirmPassword}	
+						{form.errors.passwordConfirmation}	
 					</p>
 				{/if}
 			</div>

@@ -1,6 +1,11 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	export let form;
+
+	import { page } from '$app/stores';
+	import { enhance } from '$app/forms';
+  	import { getRedirectFormActionExtraParamFromUrl } from '$lib/utils/redirects';
+
+	let redirectExtraParam = getRedirectFormActionExtraParamFromUrl($page.url);
 </script>
 
 <!-- Full screen height using mobile -->
@@ -15,7 +20,7 @@
 		<form
 			class="w-full mx-auto my-4 flex flex-col space-y-4 lg:w-2/3"
 			method="POST"
-			action="?/signin"
+			action={`?/signin${redirectExtraParam ?? ''}`}
 			use:enhance
 		>
 			<div class="space-y-1">
@@ -54,7 +59,7 @@
 					required
 				/>
 				{#if form?.errors?.password}
-					<p class="block text-red-500">
+					<p class="block text-red-500">	
 						{form.errors.password}	
 					</p>
 				{/if}

@@ -2,8 +2,9 @@ import { DuplicateEmailError } from "$lib/errors";
 import userService from "$lib/services/userService";
 import { parseSignupForm } from "$lib/validators";
 import type { Action, Actions } from "@sveltejs/kit"
-import { fail, redirect } from "@sveltejs/kit";
+import { fail } from "@sveltejs/kit";
 import { lucia } from "$lib/auth";
+import { emailVerificationRedirect } from "$lib/utils/redirects";
 
 const signup: Action = async ({ request, cookies }) => {
 	const formData = await request.formData();
@@ -31,7 +32,7 @@ const signup: Action = async ({ request, cookies }) => {
 					terms: fields.terms
 				},
 				errors: {
-					username: "Email already exists"
+					email: "Email already exists"
 				}
 			});
 		}
@@ -45,7 +46,13 @@ const signup: Action = async ({ request, cookies }) => {
 		...sessionCookie.attributes
 	});
 
-	redirect(302, "/");
+
+	return emailVerificationRedirect({
+		toast: {
+			toastMessages: [{ message: "🫶 Welcome to SurveyTrade! Please verify your email to continue!", type: "success" }],
+			cookies		
+		}
+	});
 };
 
 export const actions: Actions = { signup };
